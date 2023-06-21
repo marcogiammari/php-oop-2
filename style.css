@@ -7,8 +7,8 @@ main {
 }
 
 main img {
-    width: 12rem;
-    height: 20rem;
+    width: 16rem;
+    height: 22rem;
     object-fit: contain;
 }
 

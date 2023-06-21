@@ -24,14 +24,22 @@ require 'db.php'
         <div class="container">
             <div class="row flex-nowrap gap-2 overflow-auto rounded">
                 <?php foreach ($products as $product) { ?>
-                    <div class="col-auto card d-flex flex-column justify-content-center align-items-center text-dark p-3 fw-semibold">
+                    <div class="col-auto card d-flex flex-column justify-content-between align-items-center text-dark p-3 fw-semibold">
                         <div class="d-flex gap-2">
                             <p><?= get_class($product) ?></p>
                             <p><?= $product->category->icon ?></p>
                         </div>
-                        <img src="<?= $product->thumb ?>" alt="">
+                        <img src="<?= $product->thumb ?>" alt="<?= $product->name ?>">
                         <p><?= $product->name ?></p>
                         <p><?= $product->price . '&euro;'?></p>
+                        <p>
+                            <?php 
+                                if (method_exists($product, 'getWeight')) {
+                                echo $product->getWeight();
+                                } 
+                            ?>
+                        </p>
+                        
                     </div>
                 <?php } ?>        
             </div>
