@@ -1,0 +1,17 @@
+nav {
+    height: 5rem;
+}
+
+main {
+    height: calc(100dvh - 5rem) !important;
+}
+
+main img {
+    width: 12rem;
+    height: 20rem;
+    object-fit: contain;
+}
+
+main p {
+    margin: 0 !important;
+}
