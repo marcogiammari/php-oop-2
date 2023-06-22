@@ -1,17 +1,27 @@
+body {
+    font-family: Poppins, sans-serif !important;
+}
+
 nav {
     height: 5rem;
 }
 
-main {
-    height: calc(100dvh - 5rem) !important;
-}
-
 main img {
-    width: 16rem;
-    height: 22rem;
+    width: 20rem;
+    height: 20rem;
     object-fit: contain;
 }
 
 main p {
     margin: 0 !important;
+}
+
+
+.category {
+    position: absolute;
+    top: 0;
+}
+
+.my-card-body {
+    height: 10rem;
 }
