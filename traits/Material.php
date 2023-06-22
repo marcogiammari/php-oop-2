@@ -1,7 +1,7 @@
 <?php 
 
 trait Material {
-    private $material;
+    public $material;
 
 	public function setMaterial($material) {
         $this->material = $material;

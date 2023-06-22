@@ -13,9 +13,8 @@ class House extends Product {
     }
 
     public function getSize() {
-        $this->size ? $this->size : throw new Exception('Size not avaliable') ;
         return $this->size;
-    }
+      }
 }
 
 ?>

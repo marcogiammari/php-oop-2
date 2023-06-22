@@ -6,9 +6,9 @@ require __DIR__ . '/models/Food.php';
 require __DIR__ . '/models/House.php';
 require __DIR__ . '/models/Toy.php';
 
-$cats = new Category('Cats', '&#x1f408;');
-$dogs = new Category('Dogs', '&#128021;');
-$fishes = new Category('Fishes', '&#128031;');
+$cats = new Category('Cats', "fa-solid fa-cat");
+$dogs = new Category('Dogs', 'fa-solid fa-dog');
+$fishes = new Category('Fishes', 'fa-solid fa-fish');
 
 $kibble = new Food('Kibble', 5, $cats);
 $kibble->setWeight(2.5);
@@ -19,7 +19,7 @@ $natural_trainer->setWeight(500, 'g');
 $natural_trainer->setThumb('img/natural-trainer.jpg');
 
 $kennel = new House('Dog Kennel', 20, $dogs);
-// $kennel->setSize(150, 200);
+$kennel->setSize(150, 200);
 $kennel->setMaterial('Wood');
 $kennel->setThumb('img/dog-kennel.jpg');
 
@@ -34,5 +34,7 @@ $fish_bowl-> setThumb('img/fish-bowl.jpeg');
 
 
 $products = [$kibble, $natural_trainer, $kennel, $scratcher, $fish_bowl];
+
+echo json_encode($products);
 
 ?>
