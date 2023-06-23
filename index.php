@@ -33,7 +33,9 @@
                             <img class="my-cart-img img-fluid" :src="product.thumb" alt="product.name">
                         </div>
                         <button @click="">Proceed to the payment</button>
-                        
+                        <button @click="resetCart()" class="btn btn-light">
+                                Reset Cart
+                        </button>
                     </div>
                 </div>
             </nav>
@@ -61,7 +63,7 @@
                             </div>
                             <button @click="addToCart(product)" class="btn btn-light">
                                 Add to Cart
-                            </button>
+                            </button>                            
                         </div>
                     </div>
                 </div> 
