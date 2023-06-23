@@ -10,6 +10,8 @@ if (!empty($_POST)) {
         $cartData[] = $_POST['newItem'];
     } elseif (isset($_POST['reset'])) {
         $cartData = [];
+    } elseif (isset($_POST['deleteItem'])) {
+        array_splice($cartData, $_POST['deleteItem'], 1);
     }
     file_put_contents("cart.json", json_encode($cartData));
     $cart = json_encode($cartData);

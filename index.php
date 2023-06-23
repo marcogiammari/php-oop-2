@@ -28,7 +28,10 @@
                     </div>
                     <div class="offcanvas-body d-flex flex-column gap-2">
                         
-                        <div class="card d-flex flex-column gap-2 align-items-center" v-for="product in cart">
+                        <div class="card position-relative d-flex flex-column gap-2 align-items-center" v-for="product, i in cart">
+                            <button @click="deleteItem(i)" class="position-absolute end-0 top-0">
+                                X
+                            </button>
                             <span>{{ product.name }}</span>
                             <img class="my-cart-img img-fluid" :src="product.thumb" alt="product.name">
                         </div>

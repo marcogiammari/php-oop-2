@@ -50,6 +50,12 @@ createApp({
             console.log(this.cart);
             data = {newItem: item};
             this.sendData(data);
+        },        
+        deleteItem(item) {
+            console.log("Prodotto da aggiungere: " + item);
+            console.log(this.cart);
+            data = {deleteItem: item};
+            this.sendData(data);
         },
         resetCart() {
             data = {'reset': 'reset'}
