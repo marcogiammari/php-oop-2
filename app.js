@@ -10,35 +10,43 @@ createApp({
     },
     mounted() {
         console.log('App mounted!');
-        this.getData()
+        this.getData(this.api);
+        this.getCart();
     },
     methods: {
         // getData
-        getData() {
-            axios.get(this.api)
+        getData(url) {
+            axios.get(url)
             .then(response => {
-                console.log(response);
+                console.log(response.data);
                 this.database = response.data;
             }).catch(error => {
                 console.log('Errore nel recuperare i dati: ', error);
             })
         },
-        // sendData
-        sendData(data) {
-            data = {data: data};
+        addToCart(item) {
+            console.log("Prodotto da aggiungere: " + item);
+            console.log(this.cart);
+            data = {newItem: item};
             axios.post('cart.php', data, {
                 headers: { 'Content-Type': 'multipart/form-data'}
             })
             .then((result) => {
+                this.cart = result.data;
                 console.log(result.data);
+                console.log(this.cart);
             }).catch((error) => {
                 console.log("Errore nell'invio dei dati: " + error);
             });
         },
-        addToCart(i) {
-            this.cart.push(this.database[i]);
-            console.log(this.cart);
-            this.sendData(this.cart[i])
+        getCart() {
+            axios.get('cart.php')
+            .then(result => {
+                console.log(result);
+                this.cart = result.data;
+            }).catch(error => {
+                console.log('Errore nel recuperare i dati: ', error);
+            })
         }
     }
 }).mount("#app");

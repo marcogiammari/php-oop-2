@@ -17,23 +17,23 @@
         <header>
             <nav class="d-flex justify-content-between align-items-center px-4">
                 <h1>Pet's Shop</h1>
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <button @click="" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                     Cart
                 </button>
 
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="w-25 offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasExampleLabel">My Cart</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                    <div class="offcanvas-body">
-                        <div>
-                            <div v-if="cart.length > 0" v-for="product in cart" class="card d-flex">
-                                {{ product.name }}
-                                <img :src="product.thumb" alt="product.name">
-                            </div>
-                            <button @click="sendData()">AGGIUNGI</button>
+                    <div class="offcanvas-body d-flex flex-column gap-2">
+                        
+                        <div class="card d-flex flex-column gap-2 align-items-center" v-for="product in cart">
+                            <span>{{ product.name }}</span>
+                            <img class="my-cart-img img-fluid" :src="product.thumb" alt="product.name">
                         </div>
+                        <button @click="">Proceed to the payment</button>
+                        
                     </div>
                 </div>
             </nav>
@@ -59,7 +59,7 @@
                                 <small v-show="product.size">Size: {{ product.size }}</small>
                                 <small v-show="product.material">Material: {{ product.material }}</small>
                             </div>
-                            <button @click="addToCart(i)" class="btn btn-light">
+                            <button @click="addToCart(product)" class="btn btn-light">
                                 Add to Cart
                             </button>
                         </div>
