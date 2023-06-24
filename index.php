@@ -1,3 +1,22 @@
+<?php 
+
+session_start();
+$_SESSION["id"] = session_create_id();
+$id = $_SESSION["id"];
+$cart_db = json_decode(file_get_contents("cart.json", true));
+
+
+if (!$cart_db) {
+    $cart_db = new stdClass;
+}
+
+$cart_db->$id = new stdClass;
+$cart_db->$id->cartItems = [];
+
+file_put_contents("cart.json", json_encode($cart_db));
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
