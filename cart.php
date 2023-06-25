@@ -1,23 +1,24 @@
 <?php 
-
-
 session_start();
+$id = $_SESSION["id"];
 
 header('Content-Type: application/json');
-
-$id = $_SESSION["id"];
 
 $cart = file_get_contents("cart.json");
 
 if (!empty($_POST)) {
     $cartData = json_decode($cart);
     if (isset($_POST['newItem'])) {
-
-        if ($cartData->$id) {
+        if (!$cartData) {
+            $cartData = new stdClass;
+        }
+        if (isset($cartData->$id)) {
             $cartData->$id->cartItems[] = $_POST['newItem'];
-        } 
-        
-
+        } else {
+            $cartData->$id = new stdClass;
+            $cartData->$id->cartItems = [];
+            $cartData->$id->cartItems[] = $_POST['newItem'];
+        }
     } elseif (isset($_POST['reset'])) {
         $cartData->$id->cartItems = [];
 

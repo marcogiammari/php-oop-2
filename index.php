@@ -1,20 +1,7 @@
 <?php 
-
 session_start();
+session_unset();
 $_SESSION["id"] = session_create_id();
-$id = $_SESSION["id"];
-$cart_db = json_decode(file_get_contents("cart.json", true));
-
-
-if (!$cart_db) {
-    $cart_db = new stdClass;
-}
-
-$cart_db->$id = new stdClass;
-$cart_db->$id->cartItems = [];
-
-file_put_contents("cart.json", json_encode($cart_db));
-
 ?>
 
 <!DOCTYPE html>
@@ -32,14 +19,98 @@ file_put_contents("cart.json", json_encode($cart_db));
     
 </head>
 <body class="bg-dark text-light">
-    <div id="app">        
+    <div id="app"> 
+        
+        <!-- header -->
         <header>
-            <nav class="d-flex justify-content-between align-items-center px-4">
+            <nav class="d-flex justify-content-between align-items-center bg-primary px-4">
                 <h1>Pet's Shop</h1>
-                <button @click="" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                    Cart
-                </button>
+                
+                <div class="d-flex align-items-center gap-3">
 
+                    <!-- signup -->
+                    <button v-show="!signUpState && !loginState"  type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#signUpModal">
+                        Sign Up
+                    </button>
+
+                    <!-- signup modal -->
+                    <div class="modal fade text-primary mt-5" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div v-show="!signUpState" class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5 m-2" id="signUpModalLabel">Sign Up</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body w-75">
+                                    <input @keyup.enter="signUp()" v-model="signUpEmail" class="form-control m-2" type="text" placeholder="Your Email">
+                                    <input @keyup.enter="signUp()" v-model="signUpPassword" type="password" class="form-control m-2" placeholder="Your Password">
+                                    <p v-show="signUpState === false" class="m-2 pt-2">
+                                        Your email has already been used. Try another one!
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button @click="signUp()" type="button" class="btn btn-primary">Sign Up</button>
+                                </div>
+                            </div>
+                            <div v-show="signUpState" class="modal-content p-5">
+                                <h5>Thank you, your registration was successful!</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- login -->
+                    <button v-show="!loginState" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Login
+                    </button>
+                    
+                    <!-- login modal -->
+                    <div class="modal fade text-primary mt-5" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div v-show="!loginState" class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5 m-2" id="loginModalLabel">Login</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body w-75">
+                                    <input @keyup.enter="login()" v-model="loginEmail" class="form-control m-2" type="text" placeholder="Your Email">
+                                    <input @keyup.enter="login()" v-model="loginPassword" type="password" class="form-control m-2" placeholder="Your Password">
+                                    <p v-show="loginState === false" class="m-2 pt-2">
+                                        Incorrect email or password
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button @click="login()" type="button" class="btn btn-primary">Login</button>
+                                </div>
+                            </div>
+                            <div v-show="loginState" class="modal-content p-5">
+                                <h5>Welcome back!</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- logout -->
+                    <button v-show="loginState" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                        Logout
+                    </button>
+                    
+                    <!-- logout modal -->
+                    <div class="modal fade text-primary mt-5" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div v-show="loginState" class="modal-content">
+                                <div v-show="loginState" class="modal-content p-5">
+                                    <h5 class="pt-3">Are you sure you want to logout?</h5>
+                                    <button @click="logout()" type="button" class="btn btn-primary">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- cart -->
+                    <button v-show="loginState" class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                        Cart
+                    </button>
+                </div>
+                
+                <!-- offcanvas -->
                 <div class="w-25 offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasExampleLabel">My Cart</h5>
@@ -62,10 +133,14 @@ file_put_contents("cart.json", json_encode($cart_db));
                 </div>
             </nav>
         </header>
-        <main>
+
+        <!-- main -->
+        <main class="d-flex justify-content-center align-items-center">
             <section class="d-flex flex-column gap-5 justify-content-center align-items-center">
                 <div class="container d-flex flex-nowrap gap-3 overflow-auto rounded">
-                    <div v-for="product, i in database" class="relative col-auto card p-0 d-flex flex-column justify-content-between align-items-center text-dark fw-semibold">
+
+                    <!-- card -->
+                    <div v-for="product, i in database" class="relative col-auto card p-0 d-flex flex-column justify-content-between align-items-center text-dark fw-semibold my-3">
                         <div class="pb-3">
                             <div id="category" class="d-flex justify-content-between w-100">
                                 <p class="bg-warning rounded p-2">{{ product.category.name }}</p>
@@ -78,12 +153,12 @@ file_put_contents("cart.json", json_encode($cart_db));
                                 <p>{{ product.name }}</p>
                                 <p>{{ product.price }} &euro;</p>
                             </div>
-                            <div>
+                            <div class="d-flex flex-column gap-1 text-center">
                                 <small v-show="product.weight">Weight: {{ product.weight }}</small>
                                 <small v-show="product.size">Size: {{ product.size }}</small>
                                 <small v-show="product.material">Material: {{ product.material }}</small>
                             </div>
-                            <button @click="addToCart(product)" class="btn btn-light">
+                            <button v-if="loginState" @click="addToCart(product)" class="btn btn-light">
                                 Add to Cart
                             </button>                            
                         </div>

@@ -5,7 +5,13 @@ createApp({
         return {
             api: 'db.php',
             database: null,
-            cart: null
+            cart: null,
+            loginState: null,
+            signUpState: null,
+            signUpEmail: "",
+            signUpPassword: "",
+            loginEmail: "",
+            loginPassword: ""
         }
     },
     mounted() {
@@ -46,6 +52,34 @@ createApp({
         resetCart() {
             data = {'reset': 'reset'}
             this.sendData(data);
-        }
+        },
+        signUp() {
+            data = {email: this.signUpEmail, password: this.signUpPassword};
+            axios.post('signup.php', data, {
+                headers: { 'Content-Type': 'multipart/form-data'}
+            })
+            .then((result) => {
+                console.log(result);
+                this.signUpState = result.data;
+                console.log(this.signUpState);
+                
+            }).catch((error) => {
+                console.log("Errore nell'invio dei dati: " + error);
+            });
+        },
+        login() {
+            data = {loginEmail: this.loginEmail, loginPassword: this.loginPassword};
+            axios.post('login.php', data, {
+                headers: { 'Content-Type': 'multipart/form-data'}
+            })
+            .then((result) => {
+                console.log(result);
+                this.loginState = result.data;
+                console.log(this.loginState);
+                
+            }).catch((error) => {
+                console.log("Errore nell'invio dei dati: " + error);
+            });
+        },
     }
 }).mount("#app");

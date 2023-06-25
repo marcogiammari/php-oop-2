@@ -6,6 +6,10 @@ nav {
     height: 5rem;
 }
 
+main {
+    height: calc(100dvh - 5rem);
+}
+
 main img {
     width: 20rem;
     height: 20rem;
