@@ -74,7 +74,7 @@ $_SESSION["id"] = session_create_id();
                                 <div class="modal-body w-75">
                                     <input @keyup.enter="login()" v-model="loginEmail" class="form-control m-2" type="text" placeholder="Your Email">
                                     <input @keyup.enter="login()" v-model="loginPassword" type="password" class="form-control m-2" placeholder="Your Password">
-                                    <p v-show="loginState === false" class="m-2 pt-2">
+                                    <p v-show="loginState == false" class="m-2 pt-2">
                                         Incorrect email or password
                                     </p>
                                 </div>

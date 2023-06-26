@@ -8,6 +8,8 @@ $cart = file_get_contents("cart.json");
 
 if (!empty($_POST)) {
     $cartData = json_decode($cart);
+
+    // add new item
     if (isset($_POST['newItem'])) {
         if (!$cartData) {
             $cartData = new stdClass;
@@ -19,9 +21,12 @@ if (!empty($_POST)) {
             $cartData->$id->cartItems = [];
             $cartData->$id->cartItems[] = $_POST['newItem'];
         }
+
+    // reset all items
     } elseif (isset($_POST['reset'])) {
         $cartData->$id->cartItems = [];
-
+    
+    // delete item
     } elseif (isset($_POST['deleteItem'])) {
         array_splice($cartData->$id->cartItems, $_POST['deleteItem'], 1);
     }

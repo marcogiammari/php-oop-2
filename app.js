@@ -53,6 +53,8 @@ createApp({
             data = {'reset': 'reset'}
             this.sendData(data);
         },
+
+        // signup & login
         signUp() {
             data = {email: this.signUpEmail, password: this.signUpPassword};
             axios.post('signup.php', data, {

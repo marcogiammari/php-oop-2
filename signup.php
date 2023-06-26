@@ -15,21 +15,18 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) {
     $email = $_POST['email'];
     $pw = $_POST['password'];
     
-    // $stmt = $conn->prepare("INSERT INTO users_data (email, password) VALUES (?, ?)");
-    // $stmt->bind_param("ss", $email, $pw);
-    // $email = $_POST['email'];
-    // $pw = $_POST['password'];
-    // $stmt->execute();
-
-    $sql = "INSERT INTO users_data (email, password) VALUES ('$email', '$pw');";
-
+    $stmt = $conn->prepare("INSERT INTO users_data (email, password) VALUES (?, ?)");
+    $stmt->bind_param("ss", $email, $pw);
+    $email = $_POST['email'];
+    $pw = $_POST['password'];
+        
     try {
-        $result = $conn->query($sql);
+        $stmt->execute();
+        $result = $stmt->get_result();
         echo json_encode(true);
     } catch (Exception $e) {
         echo json_encode(false);
     }
-    
     
     $conn->close();
 

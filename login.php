@@ -28,10 +28,9 @@ if (!empty($_POST['loginEmail']) && !empty($_POST['loginPassword'])) {
     // $result = $conn->query($stmt);
 
     if (mysqli_num_rows($result) > 0) {
-        // output data of each row
-        echo "OK";
+        echo true;
       } else {
-        echo "0 results";
+        echo false;
       }
     
     $conn->close();
